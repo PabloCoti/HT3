@@ -12,12 +12,13 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Pokemon {
+
     private String id;
     private String name;
     private float height;
     private float weight;
-    
-    public Pokemon(){
+
+    public Pokemon() {
         this.id = "25";
     }
 

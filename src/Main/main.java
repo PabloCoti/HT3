@@ -14,13 +14,38 @@ import java.util.logging.Logger;
  * @author dennys
  */
 public class main extends javax.swing.JFrame {
-    
-    Pokedex dexter = new Pokedex(); 
+
     /**
      * Creates new form main
      */
     public main() {
         initComponents();
+    }
+
+    public class Hilo extends Thread {
+
+        Pokedex dexter = new Pokedex();
+
+        public Hilo() {
+            dexter = new Pokedex();
+        }
+
+        @Override
+        public void run() {
+            Pokemon pokemon = new Pokemon();
+            try {
+                pokemon = dexter.buscarPokemon(txtBusqueda.getText());
+            } catch (IOException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            txtNumero.setText(pokemon.getId());
+            txtNombre.setText(pokemon.getName());
+            txtAltura.setText(String.valueOf(pokemon.getHeight()));
+            txtPeso.setText(String.valueOf(pokemon.getWeight()));
+        }
+
     }
 
     /**
@@ -183,18 +208,8 @@ public class main extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        Pokemon pokemon = new Pokemon();
-        try {
-            pokemon = dexter.buscarPokemon(txtBusqueda.getText());
-        } catch (IOException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        txtNumero.setText(pokemon.getId());
-        txtNombre.setText(pokemon.getName());
-        txtAltura.setText(String.valueOf(pokemon.getHeight()));
-        txtPeso.setText(String.valueOf(pokemon.getWeight()));
+        Hilo miHilo = new Hilo();
+        miHilo.start();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
